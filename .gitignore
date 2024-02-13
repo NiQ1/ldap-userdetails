@@ -30,3 +30,22 @@
 *.exe
 *.out
 *.app
+
+# Local files
+local-*
+
+# Compiled resources
+*.aps
+
+# Visual Studio internal stuff
+.vs
+
+# Visual studio local user
+*.vcxproj.user
+
+# Output directories
+Debug
+Release
+userdetails/Debug
+x64/
+userdetails/x64
