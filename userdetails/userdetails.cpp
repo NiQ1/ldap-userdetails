@@ -131,13 +131,15 @@ int _tmain(int argc, TCHAR* argv[])
 		if (ResolveLDAPServer(tszDCName, _countof(tszDCName)) <= 0) {
 			throw std::runtime_error("LDAP resolve failed. Is this computer joined to a domain?");
 		}
+		tstring RawDCName;
 		tstring DCName = _T("ldap/");
 		if (_tcsstr(tszDCName, _T("\\\\")) == tszDCName) {
-			DCName += tszDCName + 2;
+			RawDCName = tszDCName + 2;
 		}
 		else {
-			DCName += tszDCName;
+			RawDCName = tszDCName;
 		}
+		DCName += RawDCName;
 		// Resolve domain name
 		TCHAR tszDomainDN[256] = { 0 };
 		if (GetDomainDN(tszDomainDN, _countof(tszDomainDN)) <= 0) {
@@ -145,7 +147,7 @@ int _tmain(int argc, TCHAR* argv[])
 		}
 
 		// Connect to Active Directory LDAP service
-		LDAP* pLDAPConnection = ldap_init(NULL, LDAP_PORT);
+		LDAP* pLDAPConnection = ldap_init((PTSTR)RawDCName.c_str(), LDAP_PORT);
 		if (pLDAPConnection == NULL) {
 			throw std::runtime_error("LDAP connection failed.");
 		}
